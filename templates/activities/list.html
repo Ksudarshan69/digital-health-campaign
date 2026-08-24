@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Activities | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">On the ground</span>
+    <h1>Campaign Activities</h1>
+    <p>Awareness programs, trainings, and field visits run across our campaign districts.</p>
+</div></section>
+<section>
+    <div class="container">
+        <div class="grid grid--3">
+            {% for activity in page_obj %}
+            <a href="{{ activity.get_absolute_url }}" class="card animate-on-scroll">
+                {% if activity.featured_image %}<img src="{{ activity.featured_image.url }}" alt="{{ activity.title }}" loading="lazy" style="border-radius: var(--radius-sm); aspect-ratio:16/9; object-fit:cover; margin-bottom: var(--space-xs);">{% endif %}
+                <span class="section-heading__eyebrow">{{ activity.date }}{% if activity.campaign_area %} &middot; {{ activity.campaign_area.district_name }}{% endif %}</span>
+                <h3>{{ activity.title }}</h3>
+                <p>{{ activity.description }}</p>
+                <p>{{ activity.location }} &middot; {{ activity.participant_count }} participants</p>
+            </a>
+            {% empty %}<p>No activities published yet.</p>{% endfor %}
+        </div>
+        <nav class="pagination" aria-label="Activity pages">
+            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">&laquo; Prev</a>{% endif %}
+            <span class="active">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>{% endif %}
+        </nav>
+    </div>
+</section>
+{% endblock %}

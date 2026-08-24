@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Campaign Areas | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <div class="section-heading" style="margin:0; text-align:left; max-width:none;">
+            <span class="section-heading__eyebrow">Where we work</span>
+            <h1>Campaign Areas</h1>
+            <p>Districts where the campaign is active, planned, or completed.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar" aria-label="Filter by province">
+            <div class="form-field" style="max-width:260px;">
+                <label for="province">Filter by province</label>
+                <select id="province" name="province" onchange="this.form.submit()">
+                    <option value="">All provinces</option>
+                    {% for value, label in provinces %}
+                    <option value="{{ value }}" {% if value == selected_province %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        <!-- Districts overview grid. This is a clean, honest positional grid,
+             not an inaccurate freehand Nepal outline (spec section 14). Each
+             card is positioned via map_x/map_y (0-100) set in Django Admin,
+             so an accurate Nepal SVG can be dropped in later using the same
+             coordinate data without touching this markup's structure. -->
+        <div class="districts-map" id="districts-map">
+            {% for area in areas %}
+            <a href="{{ area.get_absolute_url }}"
+               class="districts-map__pin districts-map__pin--{{ area.status }}"
+               style="left:{{ area.map_x|default:50 }}%; top:{{ area.map_y|default:50 }}%;"
+               data-name="{{ area.district_name }}"
+               data-status="{{ area.get_status_display }}">
+                <span class="districts-map__dot"></span>
+                <span class="districts-map__tooltip">
+                    <strong>{{ area.district_name }}</strong><br>
+                    {{ area.get_status_display }}
+                </span>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="grid grid--3" style="margin-top: var(--space-lg);">
+            {% for area in areas %}
+            <a href="{{ area.get_absolute_url }}" class="card animate-on-scroll">
+                {% if area.featured_image %}<img src="{{ area.featured_image.url }}" alt="{{ area.district_name }}" loading="lazy" style="border-radius: var(--radius-sm); margin-bottom: var(--space-xs);">{% endif %}
+                <h3>{{ area.district_name }}</h3>
+                <p>{{ area.get_province_display }} &middot; {{ area.get_status_display }}</p>
+                <p>{{ area.description|truncatewords:20 }}</p>
+            </a>
+            {% empty %}
+            <p>No campaign areas published yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/map.js' %}"></script>{% endblock %}

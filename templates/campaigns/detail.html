@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ area.district_name }} | Campaign Areas{% endblock %}
+{% block content %}
+{% include "includes/breadcrumbs.html" with items=breadcrumb_items|default:"" %}
+<section>
+    <div class="container">
+        <span class="section-heading__eyebrow">{{ area.get_province_display }} &middot; {{ area.get_status_display }}</span>
+        <h1>{{ area.district_name }}</h1>
+        {% if area.featured_image %}<img src="{{ area.featured_image.url }}" alt="{{ area.district_name }}" style="border-radius: var(--radius-md); margin: var(--space-md) 0; max-height: 420px; object-fit: cover; width: 100%;">{% endif %}
+
+        <p>{{ area.description }}</p>
+
+        <div class="grid grid--2" style="margin-top: var(--space-lg);">
+            {% if area.healthcare_situation %}<div class="card"><h3>Healthcare Situation</h3><p>{{ area.healthcare_situation }}</p></div>{% endif %}
+            {% if area.internet_mobile_situation %}<div class="card"><h3>Internet &amp; Mobile Access</h3><p>{{ area.internet_mobile_situation }}</p></div>{% endif %}
+            {% if area.major_health_challenges %}<div class="card"><h3>Major Health Challenges</h3><p>{{ area.major_health_challenges }}</p></div>{% endif %}
+            {% if area.digital_health_needs %}<div class="card"><h3>Digital Health Needs</h3><p>{{ area.digital_health_needs }}</p></div>{% endif %}
+        </div>
+
+        {% if area.campaign_activities_summary %}
+        <div class="card" style="margin-top: var(--space-md);">
+            <h3>Campaign Activities</h3>
+            <p>{{ area.campaign_activities_summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if area.images.all %}
+        <div class="grid grid--3" style="margin-top: var(--space-lg);">
+            {% for img in area.images.all %}
+            <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy" style="border-radius: var(--radius-sm);"><figcaption>{{ img.caption }}</figcaption></figure>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <p style="margin-top: var(--space-lg);"><a href="{% url 'campaigns:list' %}" class="btn btn--secondary">&larr; Back to Campaign Areas</a></p>
+    </div>
+</section>
+{% endblock %}

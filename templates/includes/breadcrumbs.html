@@ -1,0 +1,11 @@
+{% comment %}
+Usage: {% include "includes/breadcrumbs.html" with items=breadcrumb_items %}
+items is a list of (label, url) tuples; url is None for the current page.
+{% endcomment %}
+<nav class="breadcrumb container" aria-label="Breadcrumb">
+    <a href="{% url 'core:home' %}">Home</a>
+    {% for label, url in items %}
+        &nbsp;/&nbsp;
+        {% if url %}<a href="{{ url }}">{{ label }}</a>{% else %}<span aria-current="page">{{ label }}</span>{% endif %}
+    {% endfor %}
+</nav>

@@ -1,0 +1,35 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ campaign.campaign_name }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ campaign.slogan }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ campaign.campaign_name }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ campaign.slogan }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    {% include "includes/navbar.html" %}
+
+    <main id="main-content">
+        {% include "includes/messages.html" %}
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "includes/footer.html" %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/forms.js' %}"></script>
+    <script src="{% static 'js/filters.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

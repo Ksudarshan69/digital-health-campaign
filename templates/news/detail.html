@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} | News{% endblock %}
+{% block content %}
+<section><div class="container">
+    <span class="section-heading__eyebrow">{{ post.get_category_display }} &middot; {{ post.published_date }}</span>
+    <h1>{{ post.title }}</h1>
+    {% if post.author %}<p>By {{ post.author }}</p>{% endif %}
+    {% if post.featured_image %}<img src="{{ post.featured_image.url }}" alt="{{ post.title }}" style="border-radius: var(--radius-md); margin: var(--space-md) 0; max-height:420px; width:100%; object-fit:cover;">{% endif %}
+    <p>{{ post.content|linebreaks }}</p>
+
+    {% if related %}
+    <h3 style="margin-top: var(--space-lg);">Related</h3>
+    <div class="grid grid--3">
+        {% for r in related %}
+        <a href="{{ r.get_absolute_url }}" class="card"><h3>{{ r.title }}</h3><p>{{ r.summary }}</p></a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'news:list' %}" class="btn btn--secondary">&larr; Back to News</a></p>
+</div></section>
+{% endblock %}

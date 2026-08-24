@@ -1,0 +1,36 @@
+{% load static %}
+<header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+        <a href="{% url 'core:home' %}" class="navbar__logo">
+            {% if campaign.logo %}<img src="{{ campaign.logo.url }}" alt="{{ campaign.campaign_name }} logo" width="36" height="36">{% endif %}
+            <span>{{ campaign.campaign_name|default:"Digital Health Awareness Campaign" }}</span>
+        </a>
+
+        <nav class="navbar__links" id="navbar-links" aria-label="Primary">
+            <a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>Home</a>
+            <a href="{% url 'core:about' %}">About</a>
+            <a href="{% url 'campaigns:list' %}">Campaign Areas</a>
+            <a href="{% url 'health:tools' %}">Digital Health</a>
+            <a href="{% url 'health:preventive' %}">Preventive Health</a>
+            <a href="{% url 'resources:list' %}">Resources</a>
+            <a href="{% url 'activities:list' %}">Activities</a>
+            <a href="{% url 'news:list' %}">News</a>
+            <a href="{% url 'team:list' %}">Team</a>
+            <a href="{% url 'gallery:list' %}">Gallery</a>
+        </nav>
+
+        <div class="navbar__actions">
+            <a href="{% url 'search:global' %}" class="navbar__search" aria-label="Search the site">Search</a>
+            <div class="navbar__lang" aria-label="Language switcher">
+                <a href="?lang=en" class="lang-toggle">EN</a>
+                <span aria-hidden="true">|</span>
+                <a href="?lang=ne" class="lang-toggle lang-ne">नेपाली</a>
+            </div>
+            <a href="{% url 'contact:form' %}" class="btn btn--secondary btn--sm">Contact</a>
+            <a href="{% url 'volunteers:join' %}" class="btn btn--primary btn--sm">Join Our Campaign</a>
+            <button class="navbar__toggle" id="navbar-toggle" aria-expanded="false" aria-controls="navbar-links" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>

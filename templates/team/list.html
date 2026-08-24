@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Our Team | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">Who we are</span>
+    <h1>Our Team</h1>
+</div></section>
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar">
+            <div class="form-field" style="max-width:280px;">
+                <label for="category">Role</label>
+                <select id="category" name="category" onchange="this.form.submit()">
+                    <option value="">All roles</option>
+                    {% for cat in categories %}<option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>{% endfor %}
+                </select>
+            </div>
+        </form>
+        <div class="grid grid--4">
+            {% for member in members %}
+            <a href="{{ member.get_absolute_url }}" class="card animate-on-scroll" style="text-align:center;">
+                {% if member.photo %}<img src="{{ member.photo.url }}" alt="{{ member.full_name }}" loading="lazy" style="border-radius:50%; width:96px; height:96px; object-fit:cover; margin: 0 auto var(--space-xs);">{% endif %}
+                <h3>{{ member.full_name }}</h3>
+                <p>{{ member.position }}</p>
+            </a>
+            {% empty %}<p>No team members published yet.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

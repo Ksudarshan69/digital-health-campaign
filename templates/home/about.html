@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}About | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">About us</span>
+    <h1>About the Campaign</h1>
+</div></section>
+<section>
+    <div class="container" style="max-width:800px;">
+        <p>{{ campaign.introduction }}</p>
+        <p>The {{ campaign.campaign_name }} works to improve digital health literacy, preventive health awareness, and access to reliable health information in rural, remote, and underserved communities across Nepal.</p>
+        <div class="grid grid--2" style="margin-top: var(--space-lg);">
+            <a href="{% url 'core:mission' %}" class="card"><h3>Our Mission</h3><p>What we're working to achieve.</p></a>
+            <a href="{% url 'core:objectives' %}" class="card"><h3>Our Objectives</h3><p>How we're getting there.</p></a>
+        </div>
+    </div>
+</section>
+{% endblock %}

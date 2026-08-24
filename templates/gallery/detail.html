@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ album.title }} | Gallery{% endblock %}
+{% block content %}
+<section><div class="container">
+    <span class="section-heading__eyebrow">{{ album.get_category_display }}</span>
+    <h1>{{ album.title }}</h1>
+    {% if album.description %}<p>{{ album.description }}</p>{% endif %}
+
+    <div class="masonry" id="lightbox-gallery">
+        {% for item in album.media_items.all %}
+            {% if item.media_type == 'photo' and item.image %}
+            <button type="button" class="masonry__item lightbox-trigger" data-full="{{ item.image.url }}" data-caption="{{ item.caption }}">
+                <img src="{{ item.image.url }}" alt="{{ item.caption }}" loading="lazy">
+            </button>
+            {% elif item.media_type == 'video' and item.video_url %}
+            <a href="{{ item.video_url }}" target="_blank" rel="noopener" class="masonry__item">
+                <span class="masonry__caption">▶ {{ item.caption|default:"Watch video" }}</span>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="modal-backdrop" id="lightbox-backdrop">
+        <div class="modal">
+            <img id="lightbox-image" src="" alt="" style="max-width:80vw; max-height:80vh;">
+            <p id="lightbox-caption"></p>
+            <button type="button" class="btn btn--secondary" id="lightbox-close">Close</button>
+        </div>
+    </div>
+
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'gallery:list' %}" class="btn btn--secondary">&larr; Back to Gallery</a></p>
+</div></section>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/gallery.js' %}"></script>{% endblock %}

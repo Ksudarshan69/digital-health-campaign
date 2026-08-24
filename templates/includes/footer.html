@@ -1,0 +1,58 @@
+<footer class="footer">
+    <div class="container footer__grid">
+        <div class="footer__col footer__brand">
+            <h3>{{ campaign.campaign_name }}</h3>
+            <p>{{ campaign.slogan }}</p>
+            <div class="footer__social">
+                {% if campaign.facebook_url %}<a href="{{ campaign.facebook_url }}" aria-label="Facebook">Facebook</a>{% endif %}
+                {% if campaign.instagram_url %}<a href="{{ campaign.instagram_url }}" aria-label="Instagram">Instagram</a>{% endif %}
+                {% if campaign.linkedin_url %}<a href="{{ campaign.linkedin_url }}" aria-label="LinkedIn">LinkedIn</a>{% endif %}
+                {% if campaign.youtube_url %}<a href="{{ campaign.youtube_url }}" aria-label="YouTube">YouTube</a>{% endif %}
+            </div>
+        </div>
+
+        <div class="footer__col">
+            <h4>Campaign</h4>
+            <ul>
+                <li><a href="{% url 'core:about' %}">About</a></li>
+                <li><a href="{% url 'core:mission' %}">Mission</a></li>
+                <li><a href="{% url 'core:objectives' %}">Objectives</a></li>
+                <li><a href="{% url 'campaigns:list' %}">Campaign Areas</a></li>
+            </ul>
+        </div>
+
+        <div class="footer__col">
+            <h4>Health</h4>
+            <ul>
+                <li><a href="{% url 'health:tools' %}">Digital Health</a></li>
+                <li><a href="{% url 'health:preventive' %}">Preventive Health</a></li>
+                <li><a href="{% url 'resources:list' %}">Resources</a></li>
+            </ul>
+        </div>
+
+        <div class="footer__col">
+            <h4>Campaign Updates</h4>
+            <ul>
+                <li><a href="{% url 'activities:list' %}">Activities</a></li>
+                <li><a href="{% url 'news:list' %}">News</a></li>
+                <li><a href="{% url 'team:list' %}">Team</a></li>
+                <li><a href="{% url 'gallery:list' %}">Gallery</a></li>
+            </ul>
+        </div>
+
+        <div class="footer__col">
+            <h4>Get Involved</h4>
+            <ul>
+                <li><a href="{% url 'volunteers:join' %}">Join Campaign</a></li>
+                <li><a href="{% url 'contact:form' %}">Contact</a></li>
+            </ul>
+            {% if campaign.contact_email %}<p>{{ campaign.contact_email }}</p>{% endif %}
+            {% if campaign.contact_phone %}<p>{{ campaign.contact_phone }}</p>{% endif %}
+        </div>
+    </div>
+
+    <div class="footer__bottom container">
+        <p>&copy; 2026 {{ campaign.campaign_name }}. All Rights Reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+    </div>
+</footer>

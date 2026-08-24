@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.title }} | Preventive Health{% endblock %}
+{% block content %}
+<section><div class="container">
+    <span class="section-heading__eyebrow">{{ topic.get_category_display }}</span>
+    <h1>{{ topic.title }}</h1>
+    {% if topic.featured_image %}<img src="{{ topic.featured_image.url }}" alt="{{ topic.title }}" style="border-radius: var(--radius-md); margin: var(--space-md) 0; max-height:400px; width:100%; object-fit:cover;">{% endif %}
+    <p>{{ topic.detailed_content|linebreaks }}</p>
+    <div class="alert">This is general health education information, not a medical diagnosis. Consult a healthcare professional for personal medical advice.</div>
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'health:preventive' %}" class="btn btn--secondary">&larr; Back to Preventive Health</a></p>
+</div></section>
+{% endblock %}

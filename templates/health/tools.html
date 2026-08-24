@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Digital Health Tools | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">Digital Health</span>
+    <h1>Digital Health Tools</h1>
+    <p>Simple explainers of the devices and services that make preventive care possible at home.</p>
+</div></section>
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar">
+            <div class="form-field" style="max-width:260px;">
+                <label for="category">Category</label>
+                <select id="category" name="category" onchange="this.form.submit()">
+                    <option value="">All categories</option>
+                    {% for value, label in categories %}
+                    <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <div class="grid grid--4">
+            {% for tool in tools %}
+            <a href="{{ tool.get_absolute_url }}" class="card animate-on-scroll">
+                {% if tool.icon_image %}<img src="{{ tool.icon_image.url }}" alt="{{ tool.name }}" loading="lazy" style="height:48px; width:48px; object-fit:contain; margin-bottom: var(--space-xs);">{% endif %}
+                <h3>{{ tool.name }}</h3>
+                <p>{{ tool.short_description }}</p>
+            </a>
+            {% empty %}<p>No tools published yet.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Contact Us | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">Get in touch</span>
+    <h1>Contact Us</h1>
+</div></section>
+<section>
+    <div class="container grid grid--2">
+        <div>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                    {{ field }}
+                    {% for error in field.errors %}<p class="alert alert--error" role="alert">{{ error }}</p>{% endfor %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn--primary">Send Message</button>
+            </form>
+        </div>
+        <div class="card">
+            <h3>Office</h3>
+            {% if campaign.contact_address %}<p>{{ campaign.contact_address }}</p>{% endif %}
+            {% if campaign.contact_phone %}<p>{{ campaign.contact_phone }}</p>{% endif %}
+            {% if campaign.contact_email %}<p>{{ campaign.contact_email }}</p>{% endif %}
+            <div class="footer__social" style="margin-top: var(--space-sm); color: var(--color-teal);">
+                {% if campaign.facebook_url %}<a href="{{ campaign.facebook_url }}" style="color:var(--color-blue);">Facebook</a>{% endif %}
+                {% if campaign.instagram_url %}<a href="{{ campaign.instagram_url }}" style="color:var(--color-blue);">Instagram</a>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

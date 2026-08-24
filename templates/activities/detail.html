@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ activity.title }} | Activities{% endblock %}
+{% block content %}
+<section><div class="container">
+    <span class="section-heading__eyebrow">{{ activity.date }}{% if activity.campaign_area %} &middot; {{ activity.campaign_area.district_name }}{% endif %}</span>
+    <h1>{{ activity.title }}</h1>
+    {% if activity.featured_image %}<img src="{{ activity.featured_image.url }}" alt="{{ activity.title }}" style="border-radius: var(--radius-md); margin: var(--space-md) 0; max-height:400px; width:100%; object-fit:cover;">{% endif %}
+    <p>{{ activity.location }} &middot; {{ activity.participant_count }} participants</p>
+    <p>{{ activity.content|default:activity.description|linebreaks }}</p>
+    {% if activity.gallery_images.all %}
+    <div class="grid grid--3" style="margin-top: var(--space-lg);">
+        {% for img in activity.gallery_images.all %}
+        <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy" style="border-radius: var(--radius-sm);"><figcaption>{{ img.caption }}</figcaption></figure>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'activities:list' %}" class="btn btn--secondary">&larr; Back to Activities</a></p>
+</div></section>
+{% endblock %}

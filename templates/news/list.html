@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}News & Updates | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">Stay informed</span>
+    <h1>News &amp; Updates</h1>
+</div></section>
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar resource-filters">
+            <div class="form-field"><label for="q">Search</label><input type="text" id="q" name="q" value="{{ query }}" placeholder="Search news..."></div>
+            <div class="form-field"><label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">All categories</option>
+                    {% for value, label in categories %}<option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>{% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn--primary">Filter</button>
+        </form>
+        <div class="grid grid--3">
+            {% for post in page_obj %}
+            <a href="{{ post.get_absolute_url }}" class="card animate-on-scroll">
+                {% if post.featured_image %}<img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy" style="border-radius: var(--radius-sm); aspect-ratio:16/9; object-fit:cover; margin-bottom: var(--space-xs);">{% endif %}
+                <span class="section-heading__eyebrow">{{ post.get_category_display }} &middot; {{ post.published_date }}</span>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.summary }}</p>
+            </a>
+            {% empty %}<p>No news posted yet.</p>{% endfor %}
+        </div>
+        <nav class="pagination" aria-label="News pages">
+            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&q={{ query }}">&laquo; Prev</a>{% endif %}
+            <span class="active">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&q={{ query }}">Next &raquo;</a>{% endif %}
+        </nav>
+    </div>
+</section>
+{% endblock %}

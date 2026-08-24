@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Resources | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">Learn</span>
+    <h1>Resource Library</h1>
+    <p>Articles, videos, posters, infographics, and downloads on digital and preventive health.</p>
+</div></section>
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar resource-filters">
+            <div class="form-field"><label for="q">Search</label><input type="text" id="q" name="q" value="{{ query }}" placeholder="Search resources..."></div>
+            <div class="form-field"><label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">All categories</option>
+                    {% for cat in categories %}<option value="{{ cat.slug }}" {% if cat.slug == selected_category %}selected{% endif %}>{{ cat.name }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="form-field"><label for="type">Type</label>
+                <select id="type" name="type">
+                    <option value="">All types</option>
+                    {% for value, label in resource_types %}<option value="{{ value }}" {% if value == selected_type %}selected{% endif %}>{{ label }}</option>{% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn--primary">Filter</button>
+        </form>
+
+        <div class="grid grid--3">
+            {% for resource in page_obj %}
+            <a href="{{ resource.get_absolute_url }}" class="card animate-on-scroll">
+                {% if resource.thumbnail %}<img src="{{ resource.thumbnail.url }}" alt="{{ resource.title }}" loading="lazy" style="border-radius: var(--radius-sm); aspect-ratio:16/9; object-fit:cover; margin-bottom: var(--space-xs);">{% endif %}
+                <span class="section-heading__eyebrow">{{ resource.get_resource_type_display }}{% if resource.category %} &middot; {{ resource.category.name }}{% endif %}</span>
+                <h3>{{ resource.title }}</h3>
+                <p>{{ resource.description }}</p>
+            </a>
+            {% empty %}<p>No resources match your search.</p>{% endfor %}
+        </div>
+
+        <nav class="pagination" aria-label="Resource pages">
+            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&q={{ query }}">&laquo; Prev</a>{% endif %}
+            <span class="active">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&q={{ query }}">Next &raquo;</a>{% endif %}
+        </nav>
+    </div>
+</section>
+{% endblock %}

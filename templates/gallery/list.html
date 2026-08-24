@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Gallery | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">See the campaign</span>
+    <h1>Gallery</h1>
+</div></section>
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar">
+            <div class="form-field" style="max-width:280px;">
+                <label for="category">Category</label>
+                <select id="category" name="category" onchange="this.form.submit()">
+                    <option value="">All categories</option>
+                    {% for value, label in categories %}<option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>{% endfor %}
+                </select>
+            </div>
+        </form>
+        <div class="masonry" id="masonry">
+            {% for album in albums %}
+            <a href="{{ album.get_absolute_url }}" class="masonry__item animate-on-scroll">
+                {% if album.cover_image %}<img src="{{ album.cover_image.url }}" alt="{{ album.title }}" loading="lazy">{% endif %}
+                <span class="masonry__caption">{{ album.title }}</span>
+            </a>
+            {% empty %}<p>No albums published yet.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

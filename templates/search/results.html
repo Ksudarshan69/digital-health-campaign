@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Search{% if query %}: {{ query }}{% endif %} | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <h1>Search Results</h1>
+    <form method="get" role="search" style="max-width:420px; margin-top: var(--space-sm);">
+        <input type="search" name="q" value="{{ query }}" placeholder="Search the site..." aria-label="Search">
+    </form>
+</div></section>
+<section>
+    <div class="container">
+        {% if query and total == 0 %}<p>No results for "{{ query }}".</p>{% endif %}
+
+        {% if results.campaign_areas %}<h3>Campaign Areas</h3><ul>{% for r in results.campaign_areas %}<li><a href="{{ r.get_absolute_url }}">{{ r.district_name }}</a></li>{% endfor %}</ul>{% endif %}
+        {% if results.health_topics %}<h3>Preventive Health</h3><ul>{% for r in results.health_topics %}<li><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></li>{% endfor %}</ul>{% endif %}
+        {% if results.resources %}<h3>Resources</h3><ul>{% for r in results.resources %}<li><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></li>{% endfor %}</ul>{% endif %}
+        {% if results.activities %}<h3>Activities</h3><ul>{% for r in results.activities %}<li><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></li>{% endfor %}</ul>{% endif %}
+        {% if results.news %}<h3>News</h3><ul>{% for r in results.news %}<li><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></li>{% endfor %}</ul>{% endif %}
+        {% if results.team %}<h3>Team</h3><ul>{% for r in results.team %}<li><a href="{{ r.get_absolute_url }}">{{ r.full_name }}</a></li>{% endfor %}</ul>{% endif %}
+    </div>
+</section>
+{% endblock %}

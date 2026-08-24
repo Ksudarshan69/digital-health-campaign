@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ resource.title }} | Resources{% endblock %}
+{% block content %}
+<section><div class="container">
+    <span class="section-heading__eyebrow">{{ resource.get_resource_type_display }}{% if resource.category %} &middot; {{ resource.category.name }}{% endif %}</span>
+    <h1>{{ resource.title }}</h1>
+    {% if resource.author %}<p>By {{ resource.author }} &middot; {{ resource.published_date }}</p>{% endif %}
+
+    {% if resource.thumbnail %}<img src="{{ resource.thumbnail.url }}" alt="{{ resource.title }}" style="border-radius: var(--radius-md); margin: var(--space-md) 0; max-height:400px; width:100%; object-fit:cover;">{% endif %}
+
+    {% if resource.resource_type == 'video' and resource.external_video_url %}
+        <p><a href="{{ resource.external_video_url }}" class="btn btn--primary" target="_blank" rel="noopener">Watch Video</a></p>
+    {% elif resource.file %}
+        <p><a href="{{ resource.file.url }}" class="btn btn--primary" download>Download {{ resource.get_resource_type_display }}</a></p>
+    {% endif %}
+
+    {% if resource.content %}<div class="resource-body">{{ resource.content|linebreaks }}</div>{% endif %}
+
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'resources:list' %}" class="btn btn--secondary">&larr; Back to Resources</a></p>
+</div></section>
+{% endblock %}

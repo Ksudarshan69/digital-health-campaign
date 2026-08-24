@@ -1,0 +1,39 @@
+/* Responsive rules — desktop-first overrides for tablet/mobile (section 5) */
+
+@media (max-width: 1024px) {
+    .grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .grid--3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    :root { --space-2xl: 3rem; --space-xl: 2.5rem; }
+
+    .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+
+    .navbar__links { display: none; }
+    .navbar__links.is-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: var(--color-white);
+        padding: var(--space-sm);
+        box-shadow: var(--shadow-md);
+    }
+    .navbar__toggle { display: inline-flex; }
+
+    .hero { padding: var(--space-xl) 0; }
+    .hero__actions { flex-direction: column; align-items: stretch; }
+
+    .footer__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .footer__grid { grid-template-columns: 1fr; }
+    .btn { width: 100%; justify-content: center; }
+}
+
+/* Touch-friendly tap targets */
+@media (hover: none) {
+    .btn, .navbar__toggle, a { min-height: 44px; }
+}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Preventive Health | {{ campaign.campaign_name }}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+    <span class="section-heading__eyebrow">Preventive Health</span>
+    <h1>Preventive Health Education</h1>
+    <p>Practical information to help catch health problems before they become serious.</p>
+</div></section>
+<section>
+    <div class="container">
+        <form method="get" class="filter-bar">
+            <div class="form-field" style="max-width:300px;">
+                <label for="category">Category</label>
+                <select id="category" name="category" onchange="this.form.submit()">
+                    <option value="">All categories</option>
+                    {% for value, label in categories %}
+                    <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <div class="grid grid--3">
+            {% for topic in topics %}
+            <a href="{{ topic.get_absolute_url }}" class="card animate-on-scroll">
+                {% if topic.featured_image %}<img src="{{ topic.featured_image.url }}" alt="{{ topic.title }}" loading="lazy" style="border-radius: var(--radius-sm); margin-bottom: var(--space-xs); aspect-ratio:16/9; object-fit:cover;">{% endif %}
+                <span class="section-heading__eyebrow">{{ topic.get_category_display }}</span>
+                <h3>{{ topic.title }}</h3>
+                <p>{{ topic.summary }}</p>
+            </a>
+            {% empty %}<p>No topics published yet.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="alert" role="note">
+            This website provides general health education and digital health awareness information.
+            It is not a substitute for professional medical diagnosis, treatment, or emergency medical care.
+        </div>
+    </div>
+</section>
+{% endblock %}

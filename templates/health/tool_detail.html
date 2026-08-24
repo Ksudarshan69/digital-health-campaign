@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ tool.name }} | Digital Health Tools{% endblock %}
+{% block content %}
+<section><div class="container">
+    <span class="section-heading__eyebrow">{{ tool.get_category_display }}</span>
+    <h1>{{ tool.name }}</h1>
+    {% if tool.icon_image %}<img src="{{ tool.icon_image.url }}" alt="{{ tool.name }}" style="max-height:120px; margin: var(--space-md) 0;">{% endif %}
+    <p>{{ tool.detailed_content|linebreaks }}</p>
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'health:tools' %}" class="btn btn--secondary">&larr; Back to Digital Health Tools</a></p>
+</div></section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ member.full_name }} | Our Team{% endblock %}
+{% block content %}
+<section><div class="container" style="max-width:720px;">
+    {% if member.photo %}<img src="{{ member.photo.url }}" alt="{{ member.full_name }}" style="border-radius:50%; width:140px; height:140px; object-fit:cover; margin-bottom: var(--space-sm);">{% endif %}
+    <h1>{{ member.full_name }}</h1>
+    <p><strong>{{ member.position }}</strong>{% if member.category %} &middot; {{ member.category.name }}{% endif %}{% if member.district_location %} &middot; {{ member.district_location }}{% endif %}</p>
+
+    {% if member.biography %}<p>{{ member.biography|linebreaks }}</p>{% endif %}
+    {% if member.education %}<p><strong>Education:</strong> {{ member.education }}</p>{% endif %}
+    {% if member.experience %}<p><strong>Experience:</strong> {{ member.experience }}</p>{% endif %}
+    {% if member.skills_list %}<p><strong>Skills:</strong> {{ member.skills }}</p>{% endif %}
+    {% if member.responsibilities %}<p><strong>Responsibilities:</strong> {{ member.responsibilities }}</p>{% endif %}
+
+    <div class="footer__social" style="margin-top: var(--space-sm);">
+        {% if member.facebook_url %}<a href="{{ member.facebook_url }}">Facebook</a>{% endif %}
+        {% if member.linkedin_url %}<a href="{{ member.linkedin_url }}">LinkedIn</a>{% endif %}
+        {% if member.twitter_url %}<a href="{{ member.twitter_url }}">Twitter</a>{% endif %}
+    </div>
+    <p style="margin-top: var(--space-lg);"><a href="{% url 'team:list' %}" class="btn btn--secondary">&larr; Back to Our Team</a></p>
+</div></section>
+{% endblock %}

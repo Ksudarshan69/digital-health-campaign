@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- 1. Hero -->
+<section class="hero">
+    <div class="container hero__inner">
+        <div class="hero__text">
+            <span class="section-heading__eyebrow" style="color:var(--color-soft-green);">{{ campaign.slogan }}</span>
+            <h1 style="color:var(--color-white);">{{ campaign.hero_title|default:"Digital Knowledge for a Healthier Nepal" }}</h1>
+            <p style="color:#e5f2f0;">{{ campaign.hero_description|default:"Empowering communities with digital health knowledge, preventive healthcare information, and access to technology for a healthier Nepal." }}</p>
+            <div class="hero__actions">
+                <a href="{% url 'core:about' %}" class="btn btn--outline">Explore Our Campaign</a>
+                <a href="{% url 'volunteers:join' %}" class="btn" style="background:var(--color-white); color:var(--color-teal-dark);">Join Our Campaign</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Statistics -->
+<section>
+    <div class="container">
+        <div class="grid grid--4 stats-grid">
+            <div class="stat"><span class="stat__number" data-counter="{{ campaign.stat_districts }}" data-suffix="+">0</span><span class="stat__label">Campaign Districts</span></div>
+            <div class="stat"><span class="stat__number" data-counter="{{ campaign.stat_people_reached }}" data-suffix="+">0</span><span class="stat__label">People Reached</span></div>
+            <div class="stat"><span class="stat__number" data-counter="{{ campaign.stat_programs }}" data-suffix="+">0</span><span class="stat__label">Awareness Programs</span></div>
+            <div class="stat"><span class="stat__number" data-counter="{{ campaign.stat_volunteers }}" data-suffix="+">0</span><span class="stat__label">Volunteers</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Introduction -->
+<section>
+    <div class="container grid grid--2" style="align-items:center;">
+        <div>
+            <span class="section-heading__eyebrow">About the campaign</span>
+            <h2>Building Digital Health Awareness Across Nepal</h2>
+            <p>{{ campaign.introduction|default:"Digital Health Awareness Campaign नेपालका दुर्गम तथा स्वास्थ्य सेवामा पहुँच कम भएका समुदायहरूमा डिजिटल स्वास्थ्य सम्बन्धी ज्ञान, सूचना र आवश्यक Digital Tools को पहुँच विस्तार गर्ने उद्देश्यले सञ्चालन गरिएको अभियान हो।" }}</p>
+            <a href="{% url 'core:about' %}" class="btn btn--secondary" style="margin-top: var(--space-sm);">Learn More</a>
+        </div>
+        <div class="card" aria-hidden="true" style="min-height:220px; background:var(--gradient-primary);"></div>
+    </div>
+</section>
+
+<!-- 4. Why Digital Health? -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">Why it matters</span>
+            <h2>Why Digital Health?</h2>
+        </div>
+        <div class="grid grid--4">
+            <div class="card animate-on-scroll"><h3>Healthcare Access</h3><p>Helping communities overcome geographic barriers.</p></div>
+            <div class="card animate-on-scroll"><h3>Digital Literacy</h3><p>Helping people understand and use digital health technologies.</p></div>
+            <div class="card animate-on-scroll"><h3>Preventive Health</h3><p>Promoting health awareness before problems become serious.</p></div>
+            <div class="card animate-on-scroll"><h3>Connected Communities</h3><p>Connecting communities with reliable health information and services.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Mission -->
+<section class="mission-band">
+    <div class="container">
+        <span class="section-heading__eyebrow" style="color:var(--color-soft-green);">Our Mission</span>
+        <p style="color:var(--color-white); font-size:1.25rem; max-width:800px;">{{ campaign.mission|default:"नेपालको दुर्गम तथा स्वास्थ्य सेवामा पहुँच कम भएका समुदायहरूमा Digital Health सम्बन्धी चेतना विस्तार गर्दै, प्रविधिको उचित प्रयोगमार्फत स्वास्थ्य सूचना, preventive healthcare र आवश्यक स्वास्थ्य सेवामा पहुँच सुधार गर्नु।" }}</p>
+    </div>
+</section>
+
+<!-- 6. Objectives (preview) -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">What we're working toward</span>
+            <h2>Our Objectives</h2>
+        </div>
+        <p style="text-align:center;"><a href="{% url 'core:objectives' %}" class="btn btn--secondary">View All Objectives</a></p>
+    </div>
+</section>
+
+<!-- 7. Campaign Areas -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">Where we work</span>
+            <h2>Campaign Areas</h2>
+        </div>
+        <div class="grid grid--3">
+            {% for area in campaign_areas %}
+            <a href="{{ area.get_absolute_url }}" class="card animate-on-scroll"><h3>{{ area.district_name }}</h3><p>{{ area.get_province_display }} &middot; {{ area.get_status_display }}</p></a>
+            {% empty %}<p>Campaign areas coming soon.</p>{% endfor %}
+        </div>
+        <p style="text-align:center; margin-top: var(--space-md);"><a href="{% url 'campaigns:list' %}" class="btn btn--secondary">View All Campaign Areas</a></p>
+    </div>
+</section>
+
+<!-- 8. Digital Health Tools -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">Tools</span>
+            <h2>Digital Health Tools</h2>
+        </div>
+        <div class="grid grid--4">
+            {% for tool in health_tools %}
+            <a href="{{ tool.get_absolute_url }}" class="card animate-on-scroll"><h3>{{ tool.name }}</h3><p>{{ tool.short_description }}</p></a>
+            {% empty %}<p>Tools coming soon.</p>{% endfor %}
+        </div>
+        <p style="text-align:center; margin-top: var(--space-md);"><a href="{% url 'health:tools' %}" class="btn btn--secondary">Explore Digital Health Tools</a></p>
+    </div>
+</section>
+
+<!-- 9. Preventive Health -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">Stay ahead</span>
+            <h2>Preventive Health</h2>
+        </div>
+        <div class="grid grid--3">
+            {% for topic in preventive_topics %}
+            <a href="{{ topic.get_absolute_url }}" class="card animate-on-scroll"><h3>{{ topic.title }}</h3><p>{{ topic.summary }}</p></a>
+            {% empty %}<p>Topics coming soon.</p>{% endfor %}
+        </div>
+        <p style="text-align:center; margin-top: var(--space-md);"><a href="{% url 'health:preventive' %}" class="btn btn--secondary">Explore Preventive Health</a></p>
+    </div>
+</section>
+
+<!-- 10. Latest Activities -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">On the ground</span>
+            <h2>Latest Activities</h2>
+        </div>
+        <div class="grid grid--3">
+            {% for activity in activities %}
+            <a href="{{ activity.get_absolute_url }}" class="card animate-on-scroll"><h3>{{ activity.title }}</h3><p>{{ activity.description }}</p></a>
+            {% empty %}<p>Activities coming soon.</p>{% endfor %}
+        </div>
+        <p style="text-align:center; margin-top: var(--space-md);"><a href="{% url 'activities:list' %}" class="btn btn--secondary">View All Activities</a></p>
+    </div>
+</section>
+
+<!-- 11. Featured Resources -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">Learn more</span>
+            <h2>Featured Resources</h2>
+        </div>
+        <div class="grid grid--3">
+            {% for resource in resources %}
+            <a href="{{ resource.get_absolute_url }}" class="card animate-on-scroll"><h3>{{ resource.title }}</h3><p>{{ resource.description }}</p></a>
+            {% empty %}<p>Resources coming soon.</p>{% endfor %}
+        </div>
+        <p style="text-align:center; margin-top: var(--space-md);"><a href="{% url 'resources:list' %}" class="btn btn--secondary">Browse Resources</a></p>
+    </div>
+</section>
+
+<!-- 12. Latest News -->
+<section>
+    <div class="container">
+        <div class="section-heading">
+            <span class="section-heading__eyebrow">Stay informed</span>
+            <h2>Latest News</h2>
+        </div>
+        <div class="grid grid--3">
+            {% for post in news_posts %}
+            <a href="{{ post.get_absolute_url }}" class="card animate-on-scroll"><h3>{{ post.title }}</h3><p>{{ post.summary }}</p></a>
+            {% empty %}<p>News coming soon.</p>{% endfor %}
+        </div>
+        <p style="text-align:center; margin-top: var(--space-md);"><a href="{% url 'news:list' %}" class="btn btn--secondary">Read All News</a></p>
+    </div>
+</section>
+
+<!-- 13. Join CTA -->
+<section class="cta-band">
+    <div class="container" style="text-align:center;">
+        <h2 style="color:var(--color-white);">Ready to make a difference?</h2>
+        <p style="color:#e5f2f0;">Join our volunteer network and help bring digital health awareness to communities across Nepal.</p>
+        <a href="{% url 'volunteers:join' %}" class="btn" style="background:var(--color-white); color:var(--color-teal-dark);">Join Our Campaign</a>
+    </div>
+</section>
+
+{% endblock %}
